@@ -1,0 +1,16 @@
+{
+  "name": "CropLeaf",
+  "short_name": "CropLeaf",
+  "description": "AI crop disease detection for farmers",
+  "start_url": "/dashboard/",
+  "display": "standalone",
+  "background_color": "#0F3B2C",
+  "theme_color": "#0F3B2C",
+  "icons": [
+    {
+      "src": "/static/images/assets/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

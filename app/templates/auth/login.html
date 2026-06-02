@@ -1,0 +1,27 @@
+{% extends "layout/auth.html" %}
+
+{% block title %}<title>Sign In — CropLeaf</title>{% endblock %}
+
+{% block auth_content %}
+<h1 class="font-display text-2xl font-bold text-primary text-center mb-1">Welcome back</h1>
+<p class="text-center text-slate-500 text-sm mb-8">Sign in to your CropLeaf account</p>
+
+<form method="POST" action="{% url 'login' %}" id="loginForm">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ next|default:'/dashboard/' }}" />
+  <div class="auth-field">
+    <input type="text" name="username" placeholder="Username" autocomplete="username" required />
+  </div>
+  <div class="auth-field">
+    <input type="password" name="password" placeholder="Password" autocomplete="current-password" required />
+  </div>
+  <label class="flex items-center gap-2 text-sm mb-4 cursor-pointer">
+    <input type="checkbox" id="rememberMe" /> Remember me
+  </label>
+  <button type="submit" class="btn btn-primary w-full">Sign In</button>
+</form>
+
+<p class="text-center text-sm text-slate-500 mt-6">
+  Don't have an account? <a href="{% url 'register' %}" class="text-accent font-semibold">Start free trial</a>
+</p>
+{% endblock %}

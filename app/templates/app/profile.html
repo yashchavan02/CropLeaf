@@ -1,0 +1,41 @@
+{% extends "layout/dashboard.html" %}
+{% load static %}
+
+{% block title %}<title>Profile — CropLeaf</title>{% endblock %}
+
+{% block dashboard_content %}
+<div class="max-w-lg mx-auto">
+  <div class="mb-8">
+    <h1 class="font-display text-2xl font-bold text-primary">Edit Profile</h1>
+    <p class="text-slate-500 mt-1">Manage your account settings.</p>
+  </div>
+
+  <div class="card">
+    <div class="flex items-center gap-4 mb-6 pb-6 border-b border-border">
+      <div class="w-16 h-16 rounded-full bg-accent text-white flex items-center justify-center text-2xl font-bold shrink-0">{{ user.username|first|upper }}</div>
+      <div>
+        <div class="font-semibold text-primary text-lg">{{ user.username }}</div>
+        <div class="text-sm text-slate-500">{{ user.email }}</div>
+      </div>
+    </div>
+
+    <form method="POST">
+      {% csrf_token %}
+      {% for content in form %}
+        <div class="auth-field">
+          <input type="{{ content.field.widget.input_type }}" name="{{ content.name }}" class="w-full px-4 py-3 border border-border rounded-lg text-sm font-inherit min-h-[44px]" value="{{ content.value|default_if_none:'' }}" id="{{ content.id_for_label }}" placeholder="{{ content.label }}" />
+        </div>
+        {% for error in content.errors %}
+          <div class="text-red-500 text-xs -mt-2 mb-3">{{ error }}</div>
+        {% endfor %}
+      {% endfor %}
+      <button type="submit" class="btn btn-primary"><i data-lucide="save" style="width:16px;height:16px;"></i> Update Profile</button>
+    </form>
+
+    <div class="mt-8 pt-6 border-t border-border flex flex-wrap gap-3">
+      <a href="{% url 'change_password' %}" class="btn btn-outline btn-sm"><i data-lucide="key" style="width:14px;height:14px;"></i> Change Password</a>
+      <a href="{% url 'delete_account' %}" class="btn btn-ghost btn-sm text-danger"><i data-lucide="trash-2" style="width:14px;height:14px;"></i> Delete Account</a>
+    </div>
+  </div>
+</div>
+{% endblock dashboard_content %}

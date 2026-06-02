@@ -1,0 +1,31 @@
+{% extends "layout/auth.html" %}
+
+{% block title %}<title>Start Free Trial — CropLeaf</title>{% endblock %}
+
+{% block auth_content %}
+<h1 class="font-display text-2xl font-bold text-primary text-center mb-1">Create your account</h1>
+<p class="text-center text-slate-500 text-sm mb-6">1 month free trial · No credit card required</p>
+
+{% if form.non_field_errors %}
+<div class="text-warning text-sm mb-4 text-center">{{ form.non_field_errors.0 }}</div>
+{% endif %}
+
+<form action="{% url 'register' %}" method="post" novalidate>
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{{ next|default:'/dashboard/' }}" />
+  {% for field in form %}
+  <div class="auth-field">
+    <input type="{% if field.field.widget.input_type == 'password' %}password{% else %}{{ field.field.widget.input_type }}{% endif %}"
+           name="{{ field.name }}" id="{{ field.id_for_label }}"
+           value="{{ field.value|default_if_none:'' }}"
+           placeholder="{{ field.label }}" {% if field.field.required %}required{% endif %} />
+    {% if field.errors %}<p class="text-warning text-xs mt-1">{{ field.errors.0 }}</p>{% endif %}
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-gold w-full">Create Account</button>
+</form>
+
+<p class="text-center text-sm text-slate-500 mt-6">
+  Already have an account? <a href="{% url 'login' %}" class="text-accent font-semibold">Sign In</a>
+</p>
+{% endblock %}

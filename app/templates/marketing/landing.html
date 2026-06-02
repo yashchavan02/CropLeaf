@@ -1,0 +1,143 @@
+{% extends "layout/marketing.html" %}
+{% load static %}
+
+{% block content %}
+<!-- Trust bar -->
+<section class="bg-surface border-b border-slate-200 py-3">
+  <div class="max-w-6xl mx-auto px-6 flex flex-wrap items-center justify-center gap-6 text-sm">
+    <span class="badge badge-trust">✓ 99.5% Accuracy</span>
+    <span class="badge badge-trust">✓ Used by 5,000+ Farmers</span>
+    <span class="badge badge-trust">✓ Agronomist Approved</span>
+  </div>
+</section>
+
+<!-- Hero -->
+<section class="max-w-6xl mx-auto px-6 py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
+  <div>
+    <h1 class="font-display text-4xl md:text-5xl font-bold text-primary leading-tight mb-6">
+      Detect Crop Diseases in <span class="text-gradient">5 Seconds</span>, Save Your Harvest
+    </h1>
+    <p class="text-lg text-slate-600 mb-8">
+      AI-powered leaf analysis trusted by 5,000+ farmers. 94% accuracy across 25+ crops.
+    </p>
+    <div class="flex flex-wrap gap-4 mb-10">
+      <a href="{% url 'register' %}" class="btn btn-gold btn-lg">Start Free Trial</a>
+      <a href="{% url 'register' %}?next=/predict/" class="btn btn-outline btn-lg">Try diagnosis</a>
+    </div>
+    <p class="text-sm text-slate-500">1 month free trial · No credit card required</p>
+  </div>
+  <div class="hero-slider">
+    <img src="{% static 'images/crops/Tomato___late_blight.jpeg' %}" alt="Tomato leaf with late blight" />
+    <div class="overlay">
+      <div>
+        <div class="text-secondary font-bold text-sm">AI Diagnosis</div>
+        <div class="text-xl font-bold">Example: Late Blight detected</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- As seen in -->
+<section class="bg-white py-8 border-y border-slate-100">
+  <div class="max-w-6xl mx-auto px-6 text-center">
+    <p class="text-xs uppercase tracking-wider text-slate-400 mb-4">As seen in</p>
+    <div class="flex flex-wrap justify-center gap-10 text-slate-400 font-semibold">
+      <span>AgriTech Weekly</span>
+      <span>Farm Journal</span>
+      <span>Precision Ag Today</span>
+    </div>
+  </div>
+</section>
+
+<!-- Value props -->
+<section id="features" class="max-w-6xl mx-auto px-6 py-20">
+  <h2 class="font-display text-3xl text-center text-primary font-bold mb-12">Why farmers choose CropLeaf</h2>
+  <div class="grid md:grid-cols-3 gap-8">
+    <div class="card card-hover">
+      <div class="text-3xl mb-4">⚡</div>
+      <h3 class="font-bold text-lg text-primary mb-2">5-Second Diagnosis</h3>
+      <p class="text-slate-600 text-sm">Upload a photo, get instant results. Works in the field on any device.</p>
+    </div>
+    <div class="card card-hover">
+      <div class="text-3xl mb-4">🎯</div>
+      <h3 class="font-bold text-lg text-primary mb-2">94% Clinical Accuracy</h3>
+      <p class="text-slate-600 text-sm">Tested on 50,000+ leaf images across major crop diseases.</p>
+    </div>
+    <div class="card card-hover">
+      <div class="text-3xl mb-4">💰</div>
+      <h3 class="font-bold text-lg text-primary mb-2">Save 40% on Crop Loss</h3>
+      <p class="text-slate-600 text-sm">Early detection prevents spread and protects your harvest investment.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section id="pricing" class="bg-surface py-20">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2 class="font-display text-3xl text-center text-primary font-bold mb-4">Simple, transparent pricing</h2>
+    <p class="text-center text-slate-600 mb-12">Start free. Upgrade when you're ready to scale.</p>
+    <div class="pricing-grid">
+      <div class="card pricing-card">
+        <h3 class="font-bold text-xl text-primary">Free</h3>
+        <div class="text-3xl font-bold my-4">₹0<span class="text-base font-normal text-slate-500">/mo</span></div>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6">
+          <li>✓ {{ free_daily_limit }} predictions/day</li>
+          <li>✓ {{ free_monthly_limit }} predictions/month</li>
+          <li>✓ Basic disease ID</li>
+          <li>✓ Email support</li>
+        </ul>
+        <a href="{% url 'register' %}" class="btn btn-outline w-full">Get Started</a>
+      </div>
+      <div class="card pricing-card">
+        <h3 class="font-bold text-xl text-primary">Plus</h3>
+        <div class="text-3xl font-bold my-4">₹99<span class="text-base font-normal text-slate-500">/mo</span></div>
+        <ul class="text-sm text-slate-600 space-y-2 mb-6">
+          <li>✓ Unlimited predictions</li>
+          <li>✓ Analytics & reports</li>
+          <li>✓ API access</li>
+          <li>✓ Priority support</li>
+        </ul>
+        <a href="mailto:{{ business_contact_email }}?subject=CropLeaf%20Plus%20Plan&amp;body=Hi%20CropLeaf%20team%2C%0A%0AI%20would%20like%20to%20discuss%20the%20Plus%20plan." class="btn btn-gold w-full">Contact our team</a>
+        <p class="text-xs text-slate-500 mt-3 text-center">Pay as you go · No long-term commitment</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="max-w-6xl mx-auto px-6 py-20">
+  <h2 class="font-display text-3xl text-center text-primary font-bold mb-12">Trusted by growers worldwide</h2>
+  <div class="testimonial-track">
+    <div class="testimonial-card card">
+      <p class="text-slate-600 italic mb-4">"CropLeaf caught late blight on day one. Saved my entire tomato greenhouse."</p>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-accent text-white flex items-center justify-center font-bold">JM</div>
+        <div>
+          <div class="font-semibold">John Martinez</div>
+          <div class="text-xs text-slate-500">Organic Tomato Farm, California</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card card">
+      <p class="text-slate-600 italic mb-4">"I recommend this to every farmer in my extension district. Fast and accurate."</p>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">SP</div>
+        <div>
+          <div class="font-semibold">Dr. Sarah Patel</div>
+          <div class="text-xs text-slate-500">Agricultural Extension Officer</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card card">
+      <p class="text-slate-600 italic mb-4">"The API integration let us screen 500 fields in a week. Game changer."</p>
+      <div class="flex items-center gap-3">
+        <div class="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold">RK</div>
+        <div>
+          <div class="font-semibold">Raj Kumar</div>
+          <div class="text-xs text-slate-500">AgriTech Solutions, India</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

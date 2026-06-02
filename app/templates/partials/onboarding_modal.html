@@ -1,0 +1,32 @@
+<div class="modal-backdrop" id="onboardingModal">
+  <div class="modal">
+    <h2 class="font-display text-xl text-primary font-bold mb-2">Let's set up your farm profile</h2>
+    <p class="text-sm text-slate-500 mb-6">This helps us personalize your diagnoses (takes 30 seconds)</p>
+    <form id="onboardingForm" novalidate>
+      <div id="onboardingStep1">
+        <label class="block text-sm font-medium mb-2" for="onboardingCrops">What crops do you grow?</label>
+        <select id="onboardingCrops" name="crops" class="w-full p-3 border rounded-xl mb-4" required>
+          <option value="">Select primary crop</option>
+          <option value="Tomato">Tomato</option>
+          <option value="Potato">Potato</option>
+          <option value="Corn">Corn</option>
+          <option value="Other">Other</option>
+        </select>
+        <p id="onboardingError1" class="text-warning text-sm mb-2 hidden" role="alert"></p>
+      </div>
+      <div id="onboardingStep2" class="hidden">
+        <label class="block text-sm font-medium mb-2" for="onboardingReferral">How did you hear about us?</label>
+        <select id="onboardingReferral" name="referral" class="w-full p-3 border rounded-xl mb-4" disabled>
+          <option value="">Select one</option>
+          <option value="Google Search">Google Search</option>
+          <option value="Extension Officer">Extension Officer</option>
+          <option value="Social Media">Social Media</option>
+          <option value="Friend / Colleague">Friend / Colleague</option>
+          <option value="Agri Conference">Agri Conference</option>
+        </select>
+        <p id="onboardingError2" class="text-warning text-sm mb-2 hidden" role="alert"></p>
+      </div>
+      <button type="submit" class="btn btn-primary w-full" id="onboardingSubmitBtn">Continue</button>
+    </form>
+  </div>
+</div>

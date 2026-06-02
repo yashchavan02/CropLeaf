@@ -1,0 +1,26 @@
+{% extends "layout/dashboard.html" %}
+
+{% block title %}<title>API Access — CropLeaf</title>{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="font-display text-2xl font-bold text-primary mb-6">API Access</h1>
+
+{% if not saas_user.is_plus %}
+<div class="card text-center py-12">
+  <p class="text-slate-600 mb-2">Programmatic API access is included on the Plus plan.</p>
+  <p class="text-sm text-slate-500 mb-6">Contact our team to discuss pricing, API keys, and SLAs.</p>
+  <a href="mailto:{{ business_contact_email }}?subject=CropLeaf%20Plus%20API%20Access&amp;body=Hi%20CropLeaf%20team%2C%0A%0AI%20need%20Plus%20plan%20with%20API%20access." class="btn btn-gold">Email {{ business_contact_email }}</a>
+</div>
+{% else %}
+<div class="card">
+  <h3 class="font-bold text-primary mb-4">Authenticated API</h3>
+  <p class="text-sm text-slate-600 mb-4">While logged in, use the same prediction endpoint as the web app:</p>
+  <pre class="bg-primary text-white p-4 rounded-xl text-xs overflow-x-auto"><code>POST /api/predict/
+Content-Type: multipart/form-data
+X-CSRFToken: &lt;csrf_token&gt;
+
+image=@leaf.jpg
+crop_type=Tomato</code></pre>
+</div>
+{% endif %}
+{% endblock %}

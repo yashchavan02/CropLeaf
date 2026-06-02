@@ -1,0 +1,26 @@
+{% extends "layout/dashboard.html" %}
+{% load static %}
+
+{% block title %}<title>History — CropLeaf</title>{% endblock %}
+{% block page_scripts %}<script src="{% static 'js/history.js' %}" defer></script>{% endblock %}
+
+{% block dashboard_content %}
+<div id="historyRoot">
+  <h1 class="font-display text-2xl font-bold text-primary mb-6">Prediction History</h1>
+
+  <div class="flex flex-wrap gap-4 mb-6">
+    <input type="search" id="historySearch" placeholder="Search disease or crop…" class="flex-1 min-w-[200px] p-3 border rounded-xl" />
+    <button type="button" id="viewGrid" class="btn btn-ghost btn-sm">Grid</button>
+    <button type="button" id="viewList" class="btn btn-ghost btn-sm">List</button>
+  </div>
+
+  <div class="flex flex-wrap gap-2 mb-6">
+    <button type="button" class="chip history-filter active" data-filter="all">All</button>
+    <button type="button" class="chip history-filter" data-filter="healthy">Healthy</button>
+    <button type="button" class="chip history-filter" data-filter="diseased">Diseased</button>
+    <button type="button" class="chip history-filter" data-filter="30days">Last 30 days</button>
+  </div>
+
+  <div id="historyItems"><p class="text-slate-500">Loading…</p></div>
+</div>
+{% endblock %}

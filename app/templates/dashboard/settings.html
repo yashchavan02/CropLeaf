@@ -1,0 +1,66 @@
+{% extends "layout/dashboard.html" %}
+
+{% block title %}<title>Settings — CropLeaf</title>{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="font-display text-2xl font-bold text-primary mb-8">Settings & Billing</h1>
+
+<div class="grid lg:grid-cols-2 gap-8">
+  <div class="card" id="billing">
+    <h2 class="font-bold text-primary mb-4">Current plan</h2>
+    <div class="flex items-center justify-between mb-4">
+      <span class="badge badge-pro">{{ saas_user.plan|default:"free"|title }}</span>
+    </div>
+
+    {% if saas_user.plan == 'free' %}
+    <div class="space-y-3 mb-6 text-sm">
+      <div>
+        <div class="flex justify-between mb-1">
+          <span class="text-slate-600">Today</span>
+          <span class="font-medium">{{ saas_user.daily_used }}/{{ saas_user.daily_limit }} used</span>
+        </div>
+          <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+            <div class="h-full bg-accent" style="width:{% widthratio saas_user.daily_used|default:0 saas_user.daily_limit|default:1 100 %}%"></div>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">{{ saas_user.daily_remaining }} left today</p>
+      </div>
+      <div>
+        <div class="flex justify-between mb-1">
+          <span class="text-slate-600">This month</span>
+          <span class="font-medium">{{ saas_user.monthly_used }}/{{ saas_user.monthly_limit }} used</span>
+        </div>
+        <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+          <div class="h-full bg-secondary" style="width:{% widthratio saas_user.monthly_used saas_user.monthly_limit 100 %}%"></div>
+        </div>
+        <p class="text-xs text-slate-500 mt-1">{{ saas_user.monthly_remaining }} left this month</p>
+      </div>
+    </div>
+    {% else %}
+    <p class="text-sm text-slate-600 mb-6">Unlimited predictions on your {{ saas_user.plan|title }} plan.</p>
+    {% endif %}
+
+    <div class="flex flex-wrap gap-3">
+      {% if not saas_user.is_plus %}
+      <a href="mailto:{{ business_contact_email }}?subject=CropLeaf%20Plus%20Plan&amp;body=Hi%20CropLeaf%20team%2C%0A%0AI%20would%20like%20to%20discuss%20the%20Plus%20plan." class="btn btn-gold btn-sm">Upgrade to Plus — ₹99/mo</a>
+      {% endif %}
+      {% if saas_user.is_plus %}
+      <button type="button" class="btn btn-ghost btn-sm text-warning" id="cancelSubscriptionBtn">Downgrade plan</button>
+      {% endif %}
+    </div>
+    <p class="text-xs text-slate-500 mt-4">
+      Free: {{ free_daily_limit }}/day, {{ free_monthly_limit }}/month.
+      Plus: ₹99/mo — Pay as you go · <a href="mailto:{{ business_contact_email }}" class="text-accent">{{ business_contact_email }}</a>
+    </p>
+  </div>
+
+  <div class="card">
+    <h2 class="font-bold text-primary mb-4">FAQ</h2>
+    <details class="mb-3"><summary class="font-medium cursor-pointer">What are the Free plan limits?</summary>
+      <p class="text-sm text-slate-600 mt-2">{{ free_daily_limit }} diagnoses per day and {{ free_monthly_limit }} per month. Daily count resets at midnight; monthly count resets on the 1st.</p>
+    </details>
+    <details class="mb-3"><summary class="font-medium cursor-pointer">How do I get Plus?</summary>
+      <p class="text-sm text-slate-600 mt-2">Email <a href="mailto:{{ business_contact_email }}" class="text-accent">{{ business_contact_email }}</a> and our team will set up API access, team accounts, and custom options.</p>
+    </details>
+  </div>
+</div>
+{% endblock %}

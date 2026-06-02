@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  {% include "layout/saas_head.html" %}
+  {% block title %}<title>CropLeaf Dashboard</title>{% endblock title %}
+  <script src="{% static 'js/dashboard.js' %}" defer></script>
+  <script src="{% static 'js/subscription.js' %}" defer></script>
+  <script src="{% static 'js/onboarding.js' %}" defer></script>
+  {% block page_scripts %}{% endblock page_scripts %}
+</head>
+<body data-page="{% block body_page %}dashboard{% endblock body_page %}">
+
+<div class="toast-container" id="toastContainer"></div>
+<div id="sidebarBackdrop" class="fixed inset-0 bg-black/40 z-[150] hidden md:hidden"></div>
+
+<div class="dash-layout">
+  <aside class="dash-sidebar" id="dashSidebar">
+    <div class="p-5 border-b border-white/10">
+      <a href="{% url 'dashboard' %}" class="font-display text-xl font-bold text-white no-underline">CropLeaf</a>
+    </div>
+    <nav class="flex-1 py-4">
+      <a href="{% url 'dashboard' %}" class="dash-nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+        <i data-lucide="layout-dashboard" style="width:18px;height:18px;"></i> Dashboard
+      </a>
+      <a href="{% url 'predict' %}" class="dash-nav-link {% if request.resolver_match.url_name == 'predict' %}active{% endif %}">
+        <i data-lucide="scan" style="width:18px;height:18px;"></i> New Prediction
+      </a>
+      <a href="{% url 'history' %}" class="dash-nav-link {% if request.resolver_match.url_name == 'history' %}active{% endif %}">
+        <i data-lucide="history" style="width:18px;height:18px;"></i> History
+      </a>
+      <a href="{% url 'reports' %}" class="dash-nav-link {% if request.resolver_match.url_name == 'reports' %}active{% endif %}">
+        <i data-lucide="file-bar-chart" style="width:18px;height:18px;"></i> Reports
+      </a>
+      <a href="{% url 'api_access' %}" class="dash-nav-link {% if request.resolver_match.url_name == 'api_access' %}active{% endif %}">
+        <i data-lucide="code" style="width:18px;height:18px;"></i> API Access
+      </a>
+      <a href="{% url 'settings' %}" class="dash-nav-link {% if request.resolver_match.url_name == 'settings' %}active{% endif %}">
+        <i data-lucide="settings" style="width:18px;height:18px;"></i> Settings
+      </a>
+    </nav>
+    <div class="dash-sidebar-profile">
+      {% if user.pk %}
+      <a href="{% url 'profile' pk=user.pk %}" class="dash-sidebar-profile-link">
+        <div class="dash-sidebar-avatar" aria-hidden="true">{{ user.username|first|upper }}</div>
+        <div class="dash-sidebar-profile-text">
+          <span class="dash-sidebar-name">{{ user.first_name|default:user.username }}</span>
+          <span class="dash-sidebar-plan">{{ saas_user.plan|default:"free"|title }} plan</span>
+        </div>
+        <i data-lucide="chevron-right" class="dash-sidebar-profile-chevron" style="width:16px;height:16px;"></i>
+      </a>
+      {% endif %}
+    </div>
+  </aside>
+
+  <div class="dash-main w-full">
+    <header class="dash-topbar">
+      <button type="button" class="menu-toggle" id="sidebarToggle" aria-label="Open menu">
+        <i data-lucide="menu" style="width:24px;height:24px;"></i>
+      </button>
+      <div class="flex items-center gap-4">
+        <form method="post" action="{% url 'logout' %}">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
+        </form>
+      </div>
+    </header>
+    <div class="dash-content" id="dashboardRoot">
+      {% block dashboard_content %}{% endblock dashboard_content %}
+    </div>
+  </div>
+</div>
+
+{% include "partials/modals.html" %}
+{% include "partials/onboarding_modal.html" %}
+
+<script>lucide.createIcons();</script>
+
+{% if messages %}
+{% for message in messages %}
+<div style="display:none;" data-toast='{"text":"{{ message|escapejs }}","type":"{{ message.tags }}"}'></div>
+{% endfor %}
+<script>
+  document.querySelectorAll('[data-toast]').forEach(function(el) {
+    showToast(JSON.parse(el.getAttribute('data-toast')).text, JSON.parse(el.getAttribute('data-toast')).type);
+  });
+</script>
+{% endif %}
+{% block extra_js %}{% endblock extra_js %}
+</body>
+</html>

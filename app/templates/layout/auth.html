@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+  {% include "layout/saas_head.html" %}
+  {% block title %}<title>CropLeaf</title>{% endblock title %}
+  <script src="{% static 'js/auth.js' %}" defer></script>
+</head>
+<body class="auth-page">
+
+<div class="toast-container" id="toastContainer"></div>
+
+<div class="auth-card">
+  <a href="/" class="font-display text-2xl font-bold text-primary block text-center mb-2">CropLeaf</a>
+  {% block auth_content %}{% endblock auth_content %}
+</div>
+
+<script>lucide.createIcons();</script>
+{% if messages %}
+{% for message in messages %}
+<div style="display:none;" data-toast='{"text":"{{ message|escapejs }}","type":"{{ message.tags }}"}'></div>
+{% endfor %}
+<script>
+  document.querySelectorAll('[data-toast]').forEach(function(el) {
+    showToast(JSON.parse(el.getAttribute('data-toast')).text, JSON.parse(el.getAttribute('data-toast')).type);
+  });
+</script>
+{% endif %}
+</body>
+</html>

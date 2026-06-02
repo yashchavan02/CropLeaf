@@ -1,0 +1,65 @@
+{% extends "layout/dashboard.html" %}
+
+{% block title %}<title>Dashboard — CropLeaf</title>{% endblock %}
+
+{% block dashboard_content %}
+<div class="mb-8">
+  <h1 class="font-display text-2xl md:text-3xl font-bold text-primary">Welcome back, <span id="welcomeName">{{ user.first_name|default:user.username }}</span>!</h1>
+  <p class="text-slate-500 mt-1">Your farm health overview</p>
+</div>
+
+<div id="upgradeBanner" class="upgrade-banner {% if saas_user.is_plus %}hidden{% endif %}">
+  <div>
+    <h3 class="font-bold text-lg">Unlock unlimited predictions</h3>
+    <p class="text-white/80 text-sm">Upgrade to Plus for unlimited diagnoses, analytics & API access.</p>
+  </div>
+  <a href="mailto:{{ business_contact_email }}?subject=CropLeaf%20Plus%20Plan&amp;body=Hi%20CropLeaf%20team%2C%0A%0AI%20would%20like%20to%20discuss%20the%20Plus%20plan." class="btn btn-gold">Upgrade to Plus — ₹99/mo</a>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="value" id="statPredictions">—</div>
+    <div class="label">Total predictions</div>
+  </div>
+  <div class="stat-card">
+    <div class="value" id="statTopDisease">—</div>
+    <div class="label">Most detected disease</div>
+  </div>
+  <div class="stat-card">
+    <div class="value" id="statConfidence">—</div>
+    <div class="label">Avg model confidence</div>
+  </div>
+  <div class="stat-card">
+    <div class="value" id="statTrialDays">{{ saas_user.trial_days_left }}</div>
+    <div class="label">Trial days remaining</div>
+  </div>
+</div>
+
+<div class="mb-6">
+  <div class="h-2 bg-slate-200 rounded-full overflow-hidden">
+    <div id="usageMeterFill" class="h-full bg-accent transition-all" style="width:0%"></div>
+  </div>
+  <p class="text-xs text-slate-500 mt-2" id="usageMeterLabel">Loading usage…</p>
+</div>
+
+<a href="{% url 'predict' %}" class="btn btn-primary btn-lg mb-8 inline-flex">
+  <i data-lucide="plus" style="width:20px;height:20px;"></i> New Prediction
+</a>
+
+<div class="grid lg:grid-cols-2 gap-8">
+  <div class="card">
+    <h2 class="font-bold text-primary mb-4">Recent predictions</h2>
+    <div class="flex flex-col gap-3" id="recentPredictions">
+      <p class="text-slate-500 text-sm">Loading…</p>
+    </div>
+  </div>
+  <div class="card">
+    <h2 class="font-bold text-primary mb-4">Quick tips</h2>
+    <ul class="text-sm text-slate-600 space-y-3">
+      <li>Use natural light and photograph the affected leaf area.</li>
+      <li>Supported crops: tomato, potato, and corn.</li>
+      <li>Plus plan unlocks unlimited predictions and analytics.</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

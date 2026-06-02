@@ -1,0 +1,132 @@
+{% extends "layout/dashboard.html" %}
+{% load static %}
+
+{% block title %}<title>New Prediction — CropLeaf</title>{% endblock %}
+{% block body_page %}predict{% endblock %}
+{% block page_scripts %}
+<script src="{% static 'js/predict.js' %}" defer></script>
+{% endblock %}
+
+{% block dashboard_content %}
+<div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+  <div>
+    <h1 class="font-display text-2xl font-bold text-primary">New Prediction</h1>
+    <p class="text-slate-500 text-sm" id="creditsLabel">Loading usage…</p>
+  </div>
+  <button type="button" id="useExampleBtn" class="btn btn-ghost btn-sm" data-example="{% static 'images/crops/Tomato___late_blight.jpeg' %}">
+    Try example image
+  </button>
+</div>
+
+<div class="grid lg:grid-cols-5 gap-8">
+  <div class="lg:col-span-2 space-y-4">
+    <div class="upload-zone relative" id="uploadZone">
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" class="sr-only" />
+      <i data-lucide="cloud-upload" style="width:40px;height:40px;color:var(--accent);"></i>
+      <p class="font-semibold text-primary">Drag & drop your leaf image</p>
+      <p class="text-sm text-slate-500">JPG, PNG, WebP — max 15MB</p>
+    </div>
+    <label class="btn btn-outline btn-sm w-full justify-center cursor-pointer" data-camera-trigger>
+      <input type="file" id="cameraInput" accept="image/*" capture="environment" class="sr-only" />
+      Take a photo
+    </label>
+
+    <div id="uploadStatus" class="upload-status upload-status--empty" role="status" aria-live="polite" aria-atomic="true">
+      <div class="upload-status-icon" id="uploadStatusIcon" aria-hidden="true">
+        <i data-lucide="image-plus" style="width:22px;height:22px;"></i>
+      </div>
+      <div class="upload-status-body">
+        <p class="upload-status-title" id="uploadStatusTitle">No image uploaded</p>
+        <p class="upload-status-detail" id="uploadStatusDetail">Drag & drop or choose a file to get started.</p>
+      </div>
+    </div>
+    <button type="button" id="togglePreviewBtn" class="btn btn-outline btn-sm w-full hidden">
+      <i data-lucide="image" style="width:16px;height:16px;"></i>
+      <span id="togglePreviewBtnText">Preview uploaded image</span>
+    </button>
+    <div id="previewContainer" class="hidden space-y-2">
+      <img id="previewImage" class="w-full rounded-xl max-h-64 object-contain border bg-surface" alt="Leaf preview" />
+      <button type="button" id="rotateBtn" class="btn btn-ghost btn-sm">
+        <i data-lucide="rotate-cw" style="width:16px;height:16px;"></i> Rotate preview
+      </button>
+    </div>
+    <div class="auth-field">
+      <label class="text-sm font-medium text-primary block mb-2">Crop type (optional)</label>
+      <select id="cropType" class="w-full p-3 border rounded-xl">
+        <option value="">Auto-detect</option>
+        <option>Tomato</option>
+        <option>Potato</option>
+        <option>Corn</option>
+      </select>
+    </div>
+    <button type="button" id="analyzeBtn" class="btn btn-primary btn-lg w-full" disabled>
+      <i data-lucide="sparkles" style="width:20px;height:20px;"></i> Analyze Now
+    </button>
+    <button type="button" id="newImageBtnSide" class="btn btn-outline w-full hidden js-new-image-btn">
+      <i data-lucide="image-plus" style="width:18px;height:18px;"></i> Analyze another image
+    </button>
+  </div>
+
+  <div class="lg:col-span-3">
+    <div class="card min-h-[400px]">
+      <div id="resultsPlaceholder">
+        <div class="text-center py-12 text-slate-500">
+          <i data-lucide="leaf" style="width:48px;height:48px;margin:0 auto 16px;color:var(--accent);"></i>
+          <p class="font-medium text-primary">Upload a clear leaf photo for best results</p>
+        </div>
+      </div>
+      <div id="resultsLoading" class="hidden py-8">
+        <div class="skeleton h-8 w-3/4 mb-4"></div>
+        <div class="skeleton h-32 w-full mb-4"></div>
+        <p class="text-center text-accent font-medium" id="loadingStatusText">Scanning leaf patterns…</p>
+        <div class="mt-6 space-y-2 text-sm text-slate-500">
+          <div class="loading-step">Scanning leaf patterns…</div>
+          <div class="loading-step">Comparing with disease database…</div>
+          <div class="loading-step">Preparing results…</div>
+        </div>
+      </div>
+      <div id="resultsPanel" class="hidden">
+        <div class="flex flex-wrap items-start gap-6 mb-6">
+          <div class="confidence-ring" id="confidenceRing">
+            <svg width="120" height="120" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#e2e8f0" stroke-width="8"/>
+              <circle class="ring-progress" cx="60" cy="60" r="52" fill="none" stroke="#2D6A4F" stroke-width="8" stroke-linecap="round"/>
+            </svg>
+            <span class="ring-value value">—</span>
+          </div>
+          <div>
+            <h2 class="font-display text-2xl font-bold text-primary" id="resultDisease">—</h2>
+            <span class="badge badge-mild mt-2" id="resultSeverity">—</span>
+            <p class="text-sm text-slate-500 mt-2">Confidence: <strong id="resultConfidence">—</strong></p>
+          </div>
+        </div>
+        <div class="result-tabs tabs">
+          <button type="button" class="tab active" data-tab="diagnosis">Diagnosis</button>
+          <button type="button" class="tab" data-tab="treatment">Treatment</button>
+          <button type="button" class="tab" data-tab="prevention">Prevention</button>
+        </div>
+        <div class="tab-panel" data-panel="diagnosis" id="tabDiagnosis"></div>
+        <div class="tab-panel hidden" data-panel="treatment" id="tabTreatment"></div>
+        <div class="tab-panel hidden" data-panel="prevention" id="tabPrevention"></div>
+        <div class="mt-6 pt-6 border-t flex flex-wrap gap-3">
+          <button type="button" class="btn btn-primary js-new-image-btn hidden" id="newImageBtn">
+            <i data-lucide="image-plus" style="width:18px;height:18px;"></i> Analyze another image
+          </button>
+          <button type="button" class="btn btn-ghost btn-sm" id="copyResultBtn">Copy summary</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('copyResultBtn')?.addEventListener('click', function () {
+    var d = document.getElementById('resultDisease')?.textContent || '';
+    var c = document.getElementById('resultConfidence')?.textContent || '';
+    var text = 'CropLeaf diagnosis: ' + d + ' (' + c + ' confidence)';
+    navigator.clipboard.writeText(text).then(function () {
+      if (typeof showToast === 'function') showToast('Summary copied.', 'success');
+    });
+  });
+</script>
+{% endblock %}

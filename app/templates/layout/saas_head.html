@@ -1,0 +1,46 @@
+{% load static %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="csrf-token" content="{{ csrf_token }}" />
+<meta name="theme-color" content="#0F3B2C" />
+<link rel="manifest" href="{% static 'manifest.json' %}" />
+<link rel="stylesheet" href="{% static 'css/cropleaf-saas.css' %}" />
+<link rel="icon" href="{% static 'images/assets/favicon.ico' %}" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          primary: '#0F3B2C',
+          secondary: '#D4AF37',
+          accent: '#2D6A4F',
+          warning: '#E76F51',
+          surface: '#F7F9FC',
+        }
+      }
+    }
+  }
+</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+{% if user.is_authenticated %}
+<script type="application/json" id="saas-user-data">{
+  "name": "{{ user.first_name|default:user.username|escapejs }}",
+  "email": "{{ user.email|escapejs }}",
+  "plan": "{{ saas_user.plan|default:'free' }}",
+  "predictions_remaining": {{ saas_user.predictions_remaining|default:50 }},
+  "predictions_limit": {{ saas_user.predictions_limit|default:50 }},
+  "predictions_used": {{ saas_user.predictions_used|default:0 }},
+  "daily_limit": {{ saas_user.daily_limit|default:7 }},
+  "daily_remaining": {{ saas_user.daily_remaining|default:10 }},
+  "daily_used": {{ saas_user.daily_used|default:0 }},
+  "monthly_limit": {{ saas_user.monthly_limit|default:49 }},
+  "monthly_remaining": {{ saas_user.monthly_remaining|default:50 }},
+  "monthly_used": {{ saas_user.monthly_used|default:0 }},
+  "trial_days_left": {{ saas_user.trial_days_left|default:7 }},
+  "is_pro": {{ saas_user.is_pro|yesno:"true,false" }},
+  "is_plus": {{ saas_user.is_plus|yesno:"true,false" }}
+}</script>
+{% endif %}
+<script src="{% static 'js/app.js' %}" defer></script>
+<script src="{% static 'js/api.js' %}" defer></script>

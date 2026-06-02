@@ -1,0 +1,41 @@
+{% extends "layout/dashboard.html" %}
+{% load static %}
+
+{% block title %}<title>Reports — CropLeaf</title>{% endblock %}
+{% block page_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="{% static 'js/reports.js' %}" defer></script>
+{% endblock %}
+
+{% block dashboard_content %}
+<h1 class="font-display text-2xl font-bold text-primary mb-6">Analytics & Reports</h1>
+
+<div id="reportsProGate" class="card text-center py-16 {% if saas_user.is_plus %}hidden{% endif %}">
+  <i data-lucide="lock" style="width:48px;height:48px;margin:0 auto;color:var(--secondary);"></i>
+  <h2 class="font-bold text-xl text-primary mt-4">Plus feature</h2>
+  <p class="text-slate-600 mb-6">Charts are built from your real prediction history.</p>
+  <a href="mailto:{{ business_contact_email }}?subject=CropLeaf%20Plus%20Plan&amp;body=Hi%20CropLeaf%20team%2C%0A%0AI%20would%20like%20to%20discuss%20the%20Plus%20plan." class="btn btn-gold">Upgrade to Plus — ₹99/mo</a>
+</div>
+
+<div id="reportsContent" class="{% if not saas_user.is_plus %}hidden{% endif %}">
+  <p id="reportsSummary" class="text-sm text-slate-500 mb-6"></p>
+  <div class="grid md:grid-cols-2 gap-8 mb-8">
+    <div class="card">
+      <h3 class="font-bold text-primary mb-4">Disease frequency</h3>
+      <canvas id="diseaseChart" height="200"></canvas>
+    </div>
+    <div class="card">
+      <h3 class="font-bold text-primary mb-4">Recent confidence</h3>
+      <canvas id="confidenceChart" height="200"></canvas>
+    </div>
+  </div>
+  <div class="card">
+    <h3 class="font-bold text-primary mb-4">Summary</h3>
+    <div class="grid sm:grid-cols-3 gap-4">
+      <div class="stat-card"><div class="value" id="statReportTotal">0</div><div class="label">Total predictions</div></div>
+      <div class="stat-card"><div class="value" id="statReportCommon">—</div><div class="label">Most common</div></div>
+      <div class="stat-card"><div class="value" id="statReportAvg">—</div><div class="label">Avg confidence</div></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+<div class="modal-backdrop" id="upgradeModal">
+  <div class="modal text-center">
+    <h2 class="font-display text-2xl text-primary font-bold mb-2">Upgrade to continue</h2>
+    <p class="text-slate-600 mb-6">You've hit your Free plan limit (10/day or 50/month). Upgrade to Plus for unlimited diagnoses.</p>
+    <a href="mailto:{{ business_contact_email }}?subject=CropLeaf%20Plus%20Plan&amp;body=Hi%20CropLeaf%20team%2C%0A%0AI%20would%20like%20to%20discuss%20the%20Plus%20plan." class="btn btn-gold w-full mb-3">Upgrade to Plus — ₹99/mo</a>
+    <button type="button" class="btn btn-ghost w-full" data-close-modal="upgradeModal">Not now</button>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="paymentSuccessModal">
+  <div class="modal text-center">
+    <h2 class="font-display text-2xl text-primary font-bold mb-2">Plan updated</h2>
+    <p class="text-slate-600 mb-6" id="paymentSuccessText">Your plan is now active.</p>
+    <a href="{% url 'dashboard' %}" class="btn btn-primary w-full">Go to Dashboard</a>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="retentionModal">
+  <div class="modal">
+    <h2 class="font-display text-xl text-primary font-bold mb-4">Change your plan?</h2>
+    <button type="button" class="btn btn-outline w-full mb-3" id="retentionDowngrade">Downgrade to Free</button>
+    <button type="button" class="btn btn-ghost w-full" data-close-modal="retentionModal">Keep current plan</button>
+  </div>
+</div>
