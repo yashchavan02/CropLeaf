@@ -629,6 +629,7 @@ body {
   font-size: 13px;
   color: var(--text-muted);
   line-height: 1.4;
+  word-break: break-all;
 }
 .upload-status--empty .upload-status-icon { color: var(--text-muted); }
 .upload-status--loading {
@@ -740,15 +741,24 @@ body {
 /* Small screen responsive */
 @media (max-width: 639px) {
   .result-tabs {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-  .result-tabs::-webkit-scrollbar {
-    display: none;
+    flex-direction: column;
+    gap: 0;
+    border-bottom: none;
+    margin-bottom: 16px;
   }
   .result-tabs .tab {
-    white-space: nowrap;
+    white-space: normal;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    margin-bottom: 0;
+    padding: 14px 16px;
+  }
+  .result-tabs .tab.active {
+    border-bottom-color: var(--border);
+    border-left-color: var(--accent);
+    background: rgba(45, 106, 79, 0.06);
+    color: var(--accent);
   }
   .confidence-ring {
     width: 80px;
