@@ -736,3 +736,29 @@ body {
 @keyframes upload-spin {
   to { transform: rotate(360deg); }
 }
+
+/* Small screen responsive */
+@media (max-width: 639px) {
+  .result-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .result-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .result-tabs .tab {
+    white-space: nowrap;
+  }
+  .confidence-ring {
+    width: 80px;
+    height: 80px;
+  }
+  .confidence-ring svg {
+    width: 80px;
+    height: 80px;
+  }
+  .confidence-ring .value {
+    font-size: 1rem;
+  }
+}
